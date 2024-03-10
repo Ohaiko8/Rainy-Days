@@ -11,6 +11,9 @@
 		112941412B9E15B700CAA758 /* EventFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 112941402B9E15B700CAA758 /* EventFormView.swift */; };
 		112941432B9E162700CAA758 /* EventRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 112941422B9E162700CAA758 /* EventRow.swift */; };
 		112941452B9E170F00CAA758 /* EventDetailedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 112941442B9E170F00CAA758 /* EventDetailedView.swift */; };
+		112941472B9E1D8B00CAA758 /* events.json in Resources */ = {isa = PBXBuildFile; fileRef = 112941462B9E1D8B00CAA758 /* events.json */; };
+		11439E2B2B9E1FED00A50B89 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11439E2A2B9E1FED00A50B89 /* ImagePicker.swift */; };
+		11439E2E2B9E202200A50B89 /* Cloudinary in Frameworks */ = {isa = PBXBuildFile; productRef = 11439E2D2B9E202200A50B89 /* Cloudinary */; };
 		11BC193B2B8FB5EC00CCCBCE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11BC193A2B8FB5EC00CCCBCE /* ContentView.swift */; };
 		11BC193D2B8FB5EF00CCCBCE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 11BC193C2B8FB5EF00CCCBCE /* Assets.xcassets */; };
 		11BC19402B8FB5EF00CCCBCE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 11BC193F2B8FB5EF00CCCBCE /* Preview Assets.xcassets */; };
@@ -21,6 +24,8 @@
 		112941402B9E15B700CAA758 /* EventFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventFormView.swift; sourceTree = "<group>"; };
 		112941422B9E162700CAA758 /* EventRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventRow.swift; sourceTree = "<group>"; };
 		112941442B9E170F00CAA758 /* EventDetailedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailedView.swift; sourceTree = "<group>"; };
+		112941462B9E1D8B00CAA758 /* events.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = events.json; sourceTree = "<group>"; };
+		11439E2A2B9E1FED00A50B89 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		11BC19352B8FB5EC00CCCBCE /* Rainy Days.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Rainy Days.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		11BC193A2B8FB5EC00CCCBCE /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		11BC193C2B8FB5EF00CCCBCE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -33,6 +38,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				11439E2E2B9E202200A50B89 /* Cloudinary in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,6 +65,8 @@
 			isa = PBXGroup;
 			children = (
 				11BC19462B8FB72C00CCCBCE /* Rainy-Days-Info.plist */,
+				112941462B9E1D8B00CAA758 /* events.json */,
+				11439E2A2B9E1FED00A50B89 /* ImagePicker.swift */,
 				112941442B9E170F00CAA758 /* EventDetailedView.swift */,
 				112941422B9E162700CAA758 /* EventRow.swift */,
 				112941402B9E15B700CAA758 /* EventFormView.swift */,
@@ -94,6 +102,9 @@
 			dependencies = (
 			);
 			name = "Rainy Days";
+			packageProductDependencies = (
+				11439E2D2B9E202200A50B89 /* Cloudinary */,
+			);
 			productName = "Rainy Days";
 			productReference = 11BC19352B8FB5EC00CCCBCE /* Rainy Days.app */;
 			productType = "com.apple.product-type.application";
@@ -122,6 +133,9 @@
 				Base,
 			);
 			mainGroup = 11BC192C2B8FB5EC00CCCBCE;
+			packageReferences = (
+				11439E2C2B9E202200A50B89 /* XCRemoteSwiftPackageReference "cloudinary_ios" */,
+			);
 			productRefGroup = 11BC19362B8FB5EC00CCCBCE /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -138,6 +152,7 @@
 			files = (
 				11BC19402B8FB5EF00CCCBCE /* Preview Assets.xcassets in Resources */,
 				11BC193D2B8FB5EF00CCCBCE /* Assets.xcassets in Resources */,
+				112941472B9E1D8B00CAA758 /* events.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -151,6 +166,7 @@
 				112941412B9E15B700CAA758 /* EventFormView.swift in Sources */,
 				112941452B9E170F00CAA758 /* EventDetailedView.swift in Sources */,
 				1129413F2B9E143D00CAA758 /* eventsModel.swift in Sources */,
+				11439E2B2B9E1FED00A50B89 /* ImagePicker.swift in Sources */,
 				11BC193B2B8FB5EC00CCCBCE /* ContentView.swift in Sources */,
 				112941432B9E162700CAA758 /* EventRow.swift in Sources */,
 			);
@@ -290,6 +306,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Rainy-Days-Info.plist";
+				INFOPLIST_KEY_NSCameraUsageDescription = "To capture events";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Rainy Days needs access to your location to provide accurate weather forecasts and alerts for your area.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -321,6 +338,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Rainy-Days-Info.plist";
+				INFOPLIST_KEY_NSCameraUsageDescription = "To capture events";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Rainy Days needs access to your location to provide accurate weather forecasts and alerts for your area.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -362,6 +380,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		11439E2C2B9E202200A50B89 /* XCRemoteSwiftPackageReference "cloudinary_ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/cloudinary/cloudinary_ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.5.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		11439E2D2B9E202200A50B89 /* Cloudinary */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 11439E2C2B9E202200A50B89 /* XCRemoteSwiftPackageReference "cloudinary_ios" */;
+			productName = Cloudinary;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 11BC192D2B8FB5EC00CCCBCE /* Project object */;
 }

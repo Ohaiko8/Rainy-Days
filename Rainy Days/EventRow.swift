@@ -2,41 +2,43 @@ import SwiftUI
 
 struct EventRow: View {
     var event: Event
-
+    
     var body: some View {
         HStack {
-            // Display only event name, image, and formatted date in the row
-            Text(event.eventName)
-            Spacer()
-            Text("\(formattedDate(event.eventDateTime))")
-            // You can add an ImageView here for the image if needed
+            // Use the detailed initializer of AsyncImage
+            AsyncImage(url: URL(string: event.image)) { phase in
+                // Handle the result based on the loading phase
+                switch phase {
+                    case .empty:
+                        // The image is loading. Show a progress indicator.
+                        ProgressView()
+                    case .success(let image):
+                        // The image successfully loaded. Display the image.
+                        image.resizable()
+                             .scaledToFit()
+                             .frame(width: 50, height: 50)
+                             .clipShape(Circle())
+                    case .failure:
+                        // Image loading failed. Show a placeholder or error image.
+                        Image(systemName: "photo")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 50, height: 50)
+                            .foregroundColor(.gray)
+                            .background(Color.white)
+                            .clipShape(Circle())
+                    @unknown default:
+                        // Future cases. Just in case.
+                        EmptyView()
+                }
+            }
+            .frame(width: 50, height: 50) // Set a frame for the AsyncImage
+            
+            VStack(alignment: .leading) {
+                Text(event.eventName).font(.headline)
+                Text(event.eventDescription).font(.subheadline).foregroundColor(.gray)
+                // Display other event details as needed
+            }
         }
-        .padding()
-    }
-
-    private func formattedDate(_ date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .short
-        formatter.timeStyle = .short
-        return formatter.string(from: date)
     }
 }
-
-struct EventRow_Previews: PreviewProvider {
-    static var previews: some View {
-        let event = Event(
-            eventName: "Sample Event",
-            eventDateTime: Date(),
-            eventDescription: "Sample description",
-            location: "Sample location",
-            price: 10.0,
-            gender: "All Welcome",
-            minAge: 18,
-            maxAge: 30,
-            image: "sample_image_url"
-        )
-        return EventRow(event: event)
-    }
-}
-
-

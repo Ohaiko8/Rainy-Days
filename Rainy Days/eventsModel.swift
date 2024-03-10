@@ -19,7 +19,6 @@ struct Event: Codable, Identifiable {
     var minAge: Int
     var maxAge: Int
     var image: String // You can use UIImage or Data if you want to store the actual image
-    // Add other properties as needed
 }
 
 class DataManager {

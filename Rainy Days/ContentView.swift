@@ -52,26 +52,30 @@ struct ContentView: View {
     @ObservedObject var locationManager = LocationManager()
     @ObservedObject var weatherNotificationManager = WeatherNotificationManager()
     @State private var isMapFullScreen = false
+    @State private var events = DataManager.shared.getEvents()
+    @State private var isEventFormPresented = false
     
     var body: some View {
         NavigationView {
-            ZStack {
+            ZStack(alignment: .top) {
                 VStack {
                     MapView(region: $locationManager.region)
                         .edgesIgnoringSafeArea(.all)
-                        .frame(height: isMapFullScreen ? UIScreen.main.bounds.height : UIScreen.main.bounds.height / 3.5)
+                        .frame(height: isMapFullScreen ? UIScreen.main.bounds.height : UIScreen.main.bounds.height / 2.5)
                     
-                    // This ensures the list is only visible when the map isn't in full-screen mode.
+                    // Display the event list when the map isn't in full-screen mode
                     if !isMapFullScreen {
-                        List(sampleEvents) { event in
-                            EventRow(event: event)
+                        List(events) { event in
+                            NavigationLink(destination: EventDetailView(event: event)) {
+                                EventRow(event: event)
+                            }
                         }
                     }
                 }
                 
-                // Floating buttons on the map
-                VStack {
-                    Spacer() // This pushes the button group down.
+                // Floating action buttons including the "+ event" button
+                VStack { // This pushes the button group down.
+                    Spacer()
                     HStack {
                         Spacer() // Pushes the buttons to the right side of the view.
                         VStack(spacing: 16) {
@@ -105,30 +109,46 @@ struct ContentView: View {
                                     .background(Color.orange.opacity(0.75))
                                     .clipShape(Circle())
                             }
+                            
+                            // The "+ event" button as the fourth action
+                            Button(action: {
+                                isEventFormPresented = true
+                            }) {
+                                Image(systemName: "plus")
+                                    .foregroundColor(.white)
+                                    .padding()
+                                    .background(Color.green.opacity(0.75))
+                                    .clipShape(Circle())
+                            }
+                            .sheet(isPresented: $isEventFormPresented) {
+                                EventFormView(isPresented: $isEventFormPresented, onEventSave: { event in
+                                    DataManager.shared.addEvent(event)
+                                    events = DataManager.shared.getEvents()
+                                })
+                            }
                         }
                         .padding(.trailing, 20)
-                        .padding(.bottom, 500) // Adjust this padding to place the buttons correctly over the map.
+                        .padding(.bottom, 400) // Adjust this padding to place the buttons correctly over the map.
                     }
                 }
                 
                 // Weather notification view
                 if weatherNotificationManager.showMessage {
-                    VStack {
-                        WeatherNotificationView(message: weatherNotificationManager.message)
-                            .padding()
-                            .animation(.easeInOut(duration: 0.5))
-                            .transition(.move(edge: .top))
-                            .onAppear {
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-                                    self.weatherNotificationManager.showMessage = false
-                                }
+                    WeatherNotificationView(message: weatherNotificationManager.message)
+                        .padding()
+                        .animation(.easeInOut(duration: 0.5))
+                        .transition(.move(edge: .top))
+                        .onAppear {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                                self.weatherNotificationManager.showMessage = false
                             }
-                        Spacer()
-                    }
-                    .zIndex(1) // Ensure notification is always on top
+                        }
                 }
             }
             .navigationBarTitle("Events", displayMode: .inline)
+        }
+        .onAppear {
+            events = DataManager.shared.getEvents()
         }
     }
 }
