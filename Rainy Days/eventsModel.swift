@@ -7,6 +7,7 @@
 import Foundation
 import SwiftUI
 import UIKit
+import Combine
 
 struct Event: Codable, Identifiable {
     var id = UUID()
@@ -18,49 +19,56 @@ struct Event: Codable, Identifiable {
     var gender: String
     var minAge: Int
     var maxAge: Int
-    var image: String // You can use UIImage or Data if you want to store the actual image
+    var image: String
 }
-
-class DataManager {
-    static let shared = DataManager()
-
-    private var events: [Event] = []
-
-    private init() {
-        // Load events from JSON file on app launch
-        loadEvents()
-    }
-
-    func addEvent(_ event: Event) {
-        events.append(event)
-        saveEvents()
-    }
-
-    func getEvents() -> [Event] {
-        return events
-    }
-
-    private func saveEvents() {
-        let encoder = JSONEncoder()
-        do {
-            let data = try encoder.encode(events)
-            if let filePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("events.json") {
-                try data.write(to: filePath)
-            }
-        } catch {
-            print("Error saving events: \(error.localizedDescription)")
+    
+    class DataManager: ObservableObject {
+        static let shared = DataManager()
+        
+        @Published var events: [Event] = []
+        
+        private init() {
+            loadEvents()
         }
-    }
-
-    private func loadEvents() {
-        if let filePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("events.json") {
+        
+        
+        func addEvent(_ event: Event) {
+            events.append(event)
+            saveEvents()
+        }
+        
+        func getEvents() -> [Event] {
+            return events
+        }
+        
+        func saveEvents() {
+            let encoder = JSONEncoder()
             do {
-                let data = try Data(contentsOf: filePath)
-                let decoder = JSONDecoder()
-                events = try decoder.decode([Event].self, from: data)
+                let data = try encoder.encode(events)
+                if let filePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("events.json") {
+                    try data.write(to: filePath)
+                }
             } catch {
-                print("Error loading events: \(error.localizedDescription)")
+                print("Error saving events: \(error.localizedDescription)")
+            }
+        }
+        
+        func loadEvents() {
+            if let filePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("events.json") {
+                do {
+                    let data = try Data(contentsOf: filePath)
+                    let decoder = JSONDecoder()
+                    events = try decoder.decode([Event].self, from: data)
+                } catch {
+                    print("Error loading events: \(error.localizedDescription)")
+                }
+            }
+        }
+        func removeEvent(withId id: UUID) {
+            if let index = events.firstIndex(where: { $0.id == id }) {
+                events.remove(at: index)
+                saveEvents() // Save the updated list to persist the changes
             }
         }
     }
-}
+

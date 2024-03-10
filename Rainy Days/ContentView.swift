@@ -7,7 +7,8 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     @Published var region: MKCoordinateRegion?
     @Published var weatherData: ForecastResponse?
     @Published var currentLocation: CLLocationCoordinate2D?
-    private var initialLocationSet = false // Correctly added
+    private var initialLocationSet = false
+    
     
     override init() {
         super.init()
@@ -41,12 +42,6 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     }
 }
 
-// MARK: - ContentView
-import SwiftUI
-import MapKit
-
-import SwiftUI
-import MapKit
 
 struct ContentView: View {
     @ObservedObject var locationManager = LocationManager()
@@ -54,6 +49,7 @@ struct ContentView: View {
     @State private var isMapFullScreen = false
     @State private var events = DataManager.shared.getEvents()
     @State private var isEventFormPresented = false
+    @ObservedObject private var dataManager = DataManager.shared
     
     var body: some View {
         NavigationView {
@@ -65,12 +61,12 @@ struct ContentView: View {
                     
                     // Display the event list when the map isn't in full-screen mode
                     if !isMapFullScreen {
-                        List(events) { event in
-                            NavigationLink(destination: EventDetailView(event: event)) {
-                                EventRow(event: event)
-                            }
-                        }
-                    }
+                                        List(dataManager.events) { event in
+                                            NavigationLink(destination: EventDetailView(event: event)) {
+                                                EventRow(event: event)
+                                            }
+                                        }
+                                    }
                 }
                 
                 // Floating action buttons including the "+ event" button
@@ -148,7 +144,6 @@ struct ContentView: View {
             .navigationBarTitle("Events", displayMode: .inline)
         }
         .onAppear {
-            events = DataManager.shared.getEvents()
         }
     }
 }

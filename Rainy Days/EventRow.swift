@@ -9,27 +9,27 @@ struct EventRow: View {
             AsyncImage(url: URL(string: event.image)) { phase in
                 // Handle the result based on the loading phase
                 switch phase {
-                    case .empty:
-                        // The image is loading. Show a progress indicator.
-                        ProgressView()
-                    case .success(let image):
-                        // The image successfully loaded. Display the image.
-                        image.resizable()
-                             .scaledToFit()
-                             .frame(width: 50, height: 50)
-                             .clipShape(Circle())
-                    case .failure:
-                        // Image loading failed. Show a placeholder or error image.
-                        Image(systemName: "photo")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 50, height: 50)
-                            .foregroundColor(.gray)
-                            .background(Color.white)
-                            .clipShape(Circle())
-                    @unknown default:
-                        // Future cases. Just in case.
-                        EmptyView()
+                case .empty:
+                    // The image is loading. Show a progress indicator.
+                    ProgressView()
+                case .success(let image):
+                    // The image successfully loaded. Display the image.
+                    image.resizable()
+                        .scaledToFit()
+                        .frame(width: 50, height: 50)
+                        .clipShape(Circle())
+                case .failure:
+                    // Image loading failed. Show a placeholder or error image.
+                    Image(systemName: "photo")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 50, height: 50)
+                        .foregroundColor(.gray)
+                        .background(Color.white)
+                        .clipShape(Circle())
+                @unknown default:
+                    // Future cases. Just in case.
+                    EmptyView()
                 }
             }
             .frame(width: 50, height: 50) // Set a frame for the AsyncImage

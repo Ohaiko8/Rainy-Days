@@ -2,15 +2,15 @@ import SwiftUI
 
 struct ImagePicker: UIViewControllerRepresentable {
     @Binding var isPresented: Bool
-        @Binding var selectedImage: UIImage?
-        var sourceType: UIImagePickerController.SourceType = .photoLibrary // Default to photo library
-        
-        func makeUIViewController(context: Context) -> UIImagePickerController {
-            let picker = UIImagePickerController()
-            picker.delegate = context.coordinator
-            picker.sourceType = sourceType // Use the provided source type
-            return picker
-        }
+    @Binding var selectedImage: UIImage?
+    var sourceType: UIImagePickerController.SourceType = .photoLibrary // Default to photo library
+    
+    func makeUIViewController(context: Context) -> UIImagePickerController {
+        let picker = UIImagePickerController()
+        picker.delegate = context.coordinator
+        picker.sourceType = sourceType // Use the provided source type
+        return picker
+    }
     
     func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {}
     
@@ -34,6 +34,14 @@ struct ImagePicker: UIViewControllerRepresentable {
         
         func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
             parent.isPresented = false
+        }
+    }
+}
+extension DataManager {
+    func deleteEvent(_ event: Event) {
+        if let index = events.firstIndex(where: { $0.id == event.id }) {
+            events.remove(at: index)
+            saveEvents()
         }
     }
 }

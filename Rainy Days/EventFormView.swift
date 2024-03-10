@@ -93,7 +93,7 @@ struct EventFormView: View {
             showAlert = true
             return
         }
-
+        
         // Image upload
         uploadImageToCloudinary(image: image) { imageUrl in
             guard let imageUrl = imageUrl else {
@@ -103,10 +103,10 @@ struct EventFormView: View {
                 }
                 return
             }
-
+            
             // Event object creation
             let event = Event(
-                id: UUID(), // Ensure an ID is assigned here if your Event struct expects an id
+                id: UUID(),
                 eventName: self.eventName,
                 eventDateTime: self.eventDateTime,
                 eventDescription: self.eventDescription,
@@ -115,19 +115,19 @@ struct EventFormView: View {
                 gender: self.selectedGender,
                 minAge: minAgeInt,
                 maxAge: maxAgeInt,
-                image: imageUrl // Assuming `imageName` field stores the URL or identifier of the image
+                image: imageUrl
             )
-
+            
             // Save the event
             DispatchQueue.main.async {
-                            if let onEventSave = self.onEventSave {
-                                onEventSave(event)
-                            } else {
-                                // Fallback or default action if no onEventSave closure is provided
-                                self.saveEventToLocalJson(event: event)
-                            }
-                            self.isPresented = false
-                        }
+                if let onEventSave = self.onEventSave {
+                    onEventSave(event)
+                } else {
+                    // Fallback or default action if no onEventSave closure is provided
+                    self.saveEventToLocalJson(event: event)
+                }
+                self.isPresented = false
+            }
         }
     }
     func saveEventToLocalJson(event: Event) {
@@ -156,7 +156,7 @@ struct EventFormView: View {
             }
         }
     }
-
+    
     func loadEvents() -> [Event] {
         // Attempt to construct the URL for the events.json file
         if let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("events.json"),
@@ -170,11 +170,11 @@ struct EventFormView: View {
         // Return an empty array if the file does not exist or the decoding fails
         return []
     }
-
+    
 }
-    
-    
-    
+
+
+
 func uploadImageToCloudinary(image: UIImage, completion: @escaping (String?) -> Void) {
     // Ensure the Cloudinary framework is imported and initialized
     let config = CLDConfiguration(cloudName: "dqvnjehbs", apiKey: "456752749853931", apiSecret: "sQbyYH_uqX_GzBML-Pp_Bk579Yc", secure: true)
@@ -204,33 +204,33 @@ func uploadImageToCloudinary(image: UIImage, completion: @escaping (String?) -> 
         }
     }
 }
-    
-    func saveEvent(event: Event) {
-        var events = loadEvents()
-        events.append(event)
-        
-        do {
-            let data = try JSONEncoder().encode(events)
-            let url = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("events.json")
-            try data.write(to: url)
-        } catch {
-            print(error)
-        }
-    }
-    
-    func loadEvents() -> [Event] {
-        let url = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("events.json")
-        if let url = url, let data = try? Data(contentsOf: url) {
-            let decoder = JSONDecoder()
-            if let loadedEvents = try? decoder.decode([Event].self, from: data) {
-                return loadedEvents
-            }
-        }
-        return []
-    }
 
-    extension UIApplication {
-        func endEditing() {
-            sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+func saveEvent(event: Event) {
+    var events = loadEvents()
+    events.append(event)
+    
+    do {
+        let data = try JSONEncoder().encode(events)
+        let url = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("events.json")
+        try data.write(to: url)
+    } catch {
+        print(error)
+    }
+}
+
+func loadEvents() -> [Event] {
+    let url = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("events.json")
+    if let url = url, let data = try? Data(contentsOf: url) {
+        let decoder = JSONDecoder()
+        if let loadedEvents = try? decoder.decode([Event].self, from: data) {
+            return loadedEvents
         }
     }
+    return []
+}
+
+extension UIApplication {
+    func endEditing() {
+        sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+}
